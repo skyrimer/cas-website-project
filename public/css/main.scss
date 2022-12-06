@@ -229,14 +229,3 @@ a.link-underline {
 .c-scrollbar_thumb {
   background-color: var(--clr-text);
 }
-
-.transition-swup {
-  transition: calc(var(--transition-time) * 2);
-  opacity: 1;
-  transform: none;
-}
-
-html.is-animating .transition-swup {
-  transform: translateY(200px);
-  opacity: 0;
-}

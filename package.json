@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "18.x"
+    "node": "v16.14.0"
   },
   "scripts": {
     "start": "node index.js",
@@ -14,8 +14,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@swup/preload-plugin": "^1.0.5",
+    "@swup/scroll-plugin": "^1.3.2",
+    "@swup/slide-theme": "^1.0.5",
     "ejs": "^3.1.8",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "gsap": "^3.11.3",
+    "swup": "^2.0.19",
+    "vanilla-tilt": "^1.7.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

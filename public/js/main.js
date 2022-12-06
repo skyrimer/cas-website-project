@@ -1,6 +1,8 @@
 gsap.registerPlugin(ScrollTrigger);
-const duration = 1;
-const swup = new Swup();
+const duration = 0.5;
+const swup = new Swup({
+  plugins: [new SwupScrollPlugin(), new SwupPreloadPlugin(), new SwupSlideTheme()],
+});
 const initialiseAllAnimations = () => {
   const onloadTimeline = gsap.timeline({
     scrollTrigger: {
@@ -8,19 +10,20 @@ const initialiseAllAnimations = () => {
       start: "top 90%",
     },
   });
-
-  const cardsTimeline = gsap.timeline({
-    scrollTrigger: {
-      trigger: ".cards-wrapper",
-      start: "top 90%",
-    },
-  });
-  const footerTimeline = gsap.timeline({
-    scrollTrigger: {
-      trigger: "section.footer",
-      start: "top 90%",
-    },
-  });
+  if (document.querySelector(".cards-wrapper")) {
+    const cardsTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".cards-wrapper",
+        start: "top 90%",
+      },
+    });
+    cardsTimeline.from(".cards-wrapper", {
+      x: 100,
+      y: 100,
+      opacity: 0,
+      duration: duration,
+    });
+  }
   const cards = gsap.utils.toArray(".card");
   cards.forEach((card) => {
     gsap.from(card, {
@@ -34,28 +37,19 @@ const initialiseAllAnimations = () => {
     });
   });
 
-  onloadTimeline.from(".column-content", { x: -100, opacity: 0, duration: duration });
-  onloadTimeline.from("section.glassy .column img", {
-    x: 100,
-    opacity: 0,
-    duration: duration,
-  });
+  if (document.querySelector("section.glassy .column img")) {
+    onloadTimeline.from(".column-content", { x: -100, opacity: 0, duration: duration });
+    onloadTimeline.from("section.glassy .column img", {
+      x: 100,
+      opacity: 0,
+      duration: duration,
+    });
+  }
   onloadTimeline.from(
     "main section:not(:first-child)",
     { opacity: 0, duration: 1 },
     `-=${duration}`
   );
-  cardsTimeline.from(".cards-wrapper", {
-    x: 100,
-    y: 100,
-    opacity: 0,
-    duration: duration,
-  });
-  footerTimeline.from("section.footer > .container", {
-    y: 50,
-    opacity: 0,
-    duration: duration,
-  });
 
   VanillaTilt.init(document.querySelectorAll("[data-tilt-element]"), {
     max: 10,
@@ -64,9 +58,9 @@ const initialiseAllAnimations = () => {
   });
 };
 initialiseAllAnimations();
-swup.on("transitionEnd", initialiseAllAnimations);
+swup.on("animationInStart", initialiseAllAnimations);
 
-const nav = document.querySelector("nav.navbar")
+const nav = document.querySelector("nav.navbar");
 
 const navbarObserver = new IntersectionObserver(
   (entries, observer) => {
