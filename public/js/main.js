@@ -64,7 +64,7 @@ const initialiseAllAnimations = () => {
   });
 };
 initialiseAllAnimations();
-swup.on("contentReplaced", initialiseAllAnimations);
+swup.on("transitionEnd", initialiseAllAnimations);
 
 const nav = document.querySelector("nav.navbar")
 
