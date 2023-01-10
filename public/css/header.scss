@@ -13,7 +13,7 @@ main {
 
 nav {
   @extend %glassy;
-  backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(200%);
   position: fixed;
   bottom: 0;
   width: 100%;

@@ -1,6 +1,6 @@
 .footer {
-  -webkit-backdrop-filter: blur(5px) saturate(150%);
-          backdrop-filter: blur(5px) saturate(150%);
+  -webkit-backdrop-filter: blur(5px) saturate(200%);
+          backdrop-filter: blur(5px) saturate(200%);
   background-image: linear-gradient(-125deg, hsl(var(--clr-background-dark-values)/0.6), hsl(var(--clr-background-dark-values)/0.5) 70%);
 }
 
@@ -79,6 +79,11 @@
   transition: color var(--transition-time) ease, background-color var(--transition-time);
 }
 .footer-col .social-links a:hover {
-  color: var(--clr-button-background);
+  color: var(--clr-secondary);
   background-color: var(--clr-text);
+}
+.footer-col .social-links a img,
+.footer-col .social-links a svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }/*# sourceMappingURL=footer.css.map */

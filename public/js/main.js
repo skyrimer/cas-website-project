@@ -1,20 +1,27 @@
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, CSSRulePlugin);
 const duration = 0.5;
+const animationStartPosition = "top 80%";
 const swup = new Swup({
   plugins: [new SwupScrollPlugin(), new SwupPreloadPlugin(), new SwupSlideTheme()],
 });
+
+window.onload = () => {
+  setTimeout((document.querySelector(".loader-wrapper").style.opacity = 0), duration);
+  document.querySelector(".main-wrapper").style.opacity = 1;
+};
+
 const initialiseAllAnimations = () => {
   const onloadTimeline = gsap.timeline({
     scrollTrigger: {
       trigger: "section",
-      start: "top 90%",
+      start: animationStartPosition,
     },
   });
   if (document.querySelector(".cards-wrapper")) {
     const cardsTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".cards-wrapper",
-        start: "top 90%",
+        start: animationStartPosition,
       },
     });
     cardsTimeline.from(".cards-wrapper", {
@@ -27,19 +34,65 @@ const initialiseAllAnimations = () => {
   const cards = gsap.utils.toArray(".card");
   cards.forEach((card) => {
     gsap.from(card, {
-      x: 100,
-      y: 100,
-      opacity: 0,
+      opacity: 1,
       scrollTrigger: {
         trigger: card,
-        start: "top 90%",
+        start: animationStartPosition,
       },
     });
   });
-
-  if (document.querySelector("section.glassy .column img")) {
+  if (document.querySelector(".skill-bars")) {
+    document.querySelectorAll(".progress-line span").forEach((bar) => {
+      bar.style.width = bar.dataset.progress + "%";
+    });
+    const skillsBarTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".bar",
+        start: animationStartPosition,
+      },
+    });
+    skillsBarTimeline.to(".info span", {
+      opacity: 1,
+      duration: duration,
+    });
+    skillsBarTimeline.to(".progress-line", {
+      scaleX: 1,
+      duration: duration,
+    });
+    skillsBarTimeline.to(".progress-line span", {
+      scaleX: 1,
+      duration: duration,
+    });
+    skillsBarTimeline.to(
+      CSSRulePlugin.getRule(".progress-line span::after"),
+      {
+        opacity: 1,
+        duration: duration,
+      },
+      `-=${duration}`
+    );
+    skillsBarTimeline.to(
+      CSSRulePlugin.getRule(".progress-line span::before"),
+      {
+        opacity: 1,
+        duration: duration,
+      },
+      `-=${duration}`
+    );
+  }
+  const skills = gsap.utils.toArray(".card");
+  skills.forEach((skill) => {
+    gsap.from(skill, {
+      opacity: 0,
+      scrollTrigger: {
+        trigger: skill,
+        start: animationStartPosition,
+      },
+    });
+  });
+  if (document.querySelector("section .column img")) {
     onloadTimeline.from(".column-content", { x: -100, opacity: 0, duration: duration });
-    onloadTimeline.from("section.glassy .column img", {
+    onloadTimeline.from("section .column img", {
       x: 100,
       opacity: 0,
       duration: duration,
@@ -60,16 +113,16 @@ const initialiseAllAnimations = () => {
 initialiseAllAnimations();
 swup.on("animationInStart", initialiseAllAnimations);
 
-const nav = document.querySelector("nav.navbar");
+// const nav = document.querySelector("nav.navbar");
 
-const navbarObserver = new IntersectionObserver(
-  (entries, observer) => {
-    entries.forEach((entry) => {
-      nav.classList.toggle("glassy", entry.isIntersecting);
-    });
-  },
-  {
-    rootMargin: "0px",
-  }
-);
-navbarObserver.observe(document.querySelector("section"));
+// const navbarObserver = new IntersectionObserver(
+//   (entries, observer) => {
+//     entries.forEach((entry) => {
+//       nav.classList.toggle("glassy", entry.isIntersecting);
+//     });
+//   },
+//   {
+//     rootMargin: "0px",
+//   }
+// );
+// navbarObserver.observe(document.querySelector("section"));

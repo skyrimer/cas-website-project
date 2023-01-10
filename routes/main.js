@@ -1,8 +1,19 @@
+const { json } = require("express");
 const express = require("express");
+const fs = require("fs");
+const path = require("path");
 const router = express.Router();
 
+const getJsonData = (filePath) => {
+  const file = path.join(__dirname, "public", filePath);
+  fs.readFile(file, "utf8", (err, data) => {
+    return JSON.parse(data);
+  });
+};
+
 router.get("/", (request, response, next) => {
-  response.render("pages/index");
+  const publications = getJsonData("publications.json");
+  response.render("pages/index", { publications: publications });
 });
 
 router.get("/about", (request, response, next) => {
